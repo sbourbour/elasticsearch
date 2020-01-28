@@ -31,6 +31,12 @@ Using curl to query (must is like AND):
 (should is like OR):
     
     curl -X GET "localhost:9200/_search?pretty" -H 'Content-Type: application/json' -d'{"query": {"bool": {"should": [{"match": {"title":"arash"}}, {"match": {"author":"anahita"}}]}}}'
+    
+    curl -X GET "localhost:9200/_search?pretty" -H 'Content-Type: application/json' -d'{"query": {"query_string": {"query" : "(shahriar) OR (anahita)", "default_field" : "author"}}}'
+    
+Unless full text search is needed, filters are preferred because freq. used filters are cached.
+
+    curl -X GET "localhost:9200/_search?pretty" -H 'Content-Type: application/json' -d'{"query": { "bool": { "filter": { "match": { "title": "Arash" }}}}}'
 
 You can then run queries in your browser or Postman this way:
 
@@ -44,6 +50,14 @@ To make REST calls from Python you need the requests module. You can use the pip
 Or
 
     pip install requests
+    
+## install elasticsearch client for Python
+
+    easy_install elasticsearch
+    
+Or
+
+    pip install elasticsearch        
     
 ## More info:
 
