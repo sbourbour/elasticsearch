@@ -18,20 +18,11 @@ for entry in responseContent['hits']['hits']:
 searchField = input('Please enter search field:')
 searchTerm = input('Please enter search term:')
     
-query_body = {
-  "query": {
-    "bool": {
-      "must": {
-        "match": {      
-          searchField: searchTerm
-        }
-      }
-    }
-  }
-}
+query_body = {"query": { "bool": { "filter": { "match": { searchField: searchTerm }}}}}
 
 elastic_client = Elasticsearch(hosts=["http://localhost:9200"])
 result = elastic_client.search(index="books", body=query_body)
 for entry in result['hits']['hits']:    
     print(entry['_source'])
     print()
+        
